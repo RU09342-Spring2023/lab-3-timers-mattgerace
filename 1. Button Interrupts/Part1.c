@@ -11,7 +11,8 @@
 #include <msp430.h>
 
 char LED_Color = 0x01;                       // Global Variable to determine which LED should be blinking
-
+char risingEdge = 1;
+char fallingEdge = 0;
 void gpioInit();
 
 
@@ -80,15 +81,21 @@ __interrupt void Port_2(void)
 {
     P2IFG &= ~BIT3;                         // Clear P1.3 IFG
 
-    if ( )       // @TODO Fill in this argument within the If statement to check if the interrupt was triggered off a rising edge.
+    if (risingEdge)       // @TODO Fill in this argument within the If statement to check if the interrupt was triggered off a rising edge.
     {
         LED_Color = 0;
+        P2IES &= ~BIT3;
+        fallingEdge = 1;
+        risingEdge = 0;
         // @TODO Add code to change which edge the interrupt should be looking for next
     }
 
-    else if ( ) // @TODO Fill in this argument within the If statement to check if the interrupt was triggered off a falling edge.
+    else if (fallingEdge) // @TODO Fill in this argument within the If statement to check if the interrupt was triggered off a falling edge.
     {
         LED_Color = 1;
+        P2IES |= BIT3;
+        fallingEdge = 0;
+        risingEdge = 1;
         // @TODO Add code to change which edge the interrupt should be looking for next
     }
 }
