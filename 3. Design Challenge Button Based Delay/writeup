@@ -1,1 +1,19 @@
-asdasd
+You will need to upload your code, well documented. You will also need a README for your code (you can replace this README) which will tell the user:
+
+How does your code work?
+How are the peripherals configured (what modes, what settings)?
+What design considerations did you have to take to account for things like the timer rollover?
+How should the user use your code?
+
+
+The code works by setting the timer CCR0 to a certain value and having this work as the default.  The timer then counts up to this value and
+toggles the LED.  One button interrupt triggers a reset, and the other triggers a while loop that waits for the user to release the button
+and then sets the CCR0 to that new value.
+
+Used TB0 and CCR0 to configure the timer.  Used MC_2.
+
+I used the __delay_cycles function so I did not have to worry about timer rollover.  This fixed the issue of having to instantiate another
+timer as well.
+
+The user should compile the code and then hold P2.3 down for a the rate at which they want the LED to blink.  Then to reset, they should press P2.3 to
+to reset the code.
